@@ -20,6 +20,11 @@ class Countries extends Component
 
     public function OpenAddCountryModal()
     {
+        //clear values from prev save data
+        $this->continent = '';
+        $this->country_name = '';
+        $this->capital_city = '';
+
         $this->dispatchBrowserEvent('OpenAddCountryModal');
     }
 
@@ -27,7 +32,19 @@ class Countries extends Component
     public function save()
     {
         $this->validate([
-
+            'continent' => 'required',
+            'country_name' => 'required|unique:countries',
+            'capital_city' => 'required',
         ]);
+
+        $save = Country::create([
+            'continent_id' => $this->continent,
+            'country_name' => $this->country_name,
+            'capital_city' => $this->capital_city
+        ]);
+
+        if ($save) {
+            $this->dispatchBrowserEvent('CloseAddCountryModal');
+        }
     }
 }

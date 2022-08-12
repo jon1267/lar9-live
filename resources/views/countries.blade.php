@@ -27,7 +27,16 @@
     @livewireScripts
     <script>
         window.addEventListener('OpenAddCountryModal', function () {
+            $('.addCountry').find('div.text-danger').html('');
+            $('.addCountry').find('form#continent-country-city')[0].reset();
             $('.addCountry').modal('show');
+        });
+
+        window.addEventListener('CloseAddCountryModal', function () {
+            $('.addCountry').find('div.text-danger').html('');
+            $('.addCountry').find('form#continent-country-city')[0].reset();
+            $('.addCountry').modal('hide');
+            //alert('New Country Has been Saved Successfully');
         });
     </script>
 </body>
