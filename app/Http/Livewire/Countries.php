@@ -9,6 +9,7 @@ use App\Models\Country;
 class Countries extends Component
 {
     public $continent, $country_name,$capital_city;
+    public $upd_continent, $upd_country_name, $upd_capital_city, $countryId;
 
     public function render()
     {
@@ -45,6 +46,41 @@ class Countries extends Component
 
         if ($save) {
             $this->dispatchBrowserEvent('CloseAddCountryModal');
+        }
+    }
+
+    public function OpenEditCountryModal($id)
+    {
+        $country = Country::where('id', $id)->first();
+        $this->upd_continent = $country->continent_id;
+        $this->upd_country_name = $country->country_name;
+        $this->upd_capital_city = $country->capital_city;
+        $this->countryId = $country->id;
+        $this->dispatchBrowserEvent('OpenEditCountryModal', ['id' => $id]);
+    }
+
+    public function update()
+    {
+        $countryId = $this->countryId;
+        $this->validate([
+            'upd_continent' => 'required',
+            'upd_country_name' => 'required|unique:countries,country_name,'.$countryId, // $this->upd_country_name ?
+            'upd_capital_city' => 'required',
+        ],[
+            'upd_continent.required'=>'You must select continent',
+            'upd_country_name.required'=>'Enter country name',
+            'upd_country_name.unique'=>'Country name Already Exists',
+            'upd_capital_city.required'=>'Capital city require'
+        ]);
+
+        $update = Country::find($countryId)->update([
+            'continent_id' => $this->upd_continent,
+            'country_name' => $this->upd_country_name,
+            'capital_city' => $this->upd_capital_city
+        ]);
+
+        if ($update) {
+            $this->dispatchBrowserEvent('CloseEditCountryModal');
         }
     }
 }

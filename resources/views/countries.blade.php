@@ -8,6 +8,8 @@
 
     <title>Countries & Continents</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha512-rqQltXRuHxtPWhktpAZxLHUVJ3Eombn3hvk9PHjV/N5DMUYnzKPC1i3ub0mEXgFzsaZNeJcoE0YHq0j/GFsdGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     @vite(['resources/js/app.js'])
 
     @livewireStyles
@@ -38,6 +40,19 @@
             $('.addCountry').modal('hide');
             //alert('New Country Has been Saved Successfully');
         });
+
+        window.addEventListener('OpenEditCountryModal', function (e) {
+            $('.editCountry').find('div.text-danger').html('');
+            $('.editCountry').modal('show');
+        });
+
+        window.addEventListener('CloseEditCountryModal', function () {
+            $('.editCountry').find('div.text-danger').html('');
+            $('.editCountry').find('form#continent-country-city')[0].reset();
+            $('.editCountry').modal('hide');
+            //alert('New Country Has been Saved Successfully');
+        });
+
     </script>
 </body>
 </html>
