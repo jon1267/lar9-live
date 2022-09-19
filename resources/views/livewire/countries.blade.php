@@ -24,8 +24,8 @@
                         {{--<div class="btn-group">--}}
                         {{-- <i class="fa fa-trash" ></i>  <i class="far fa-pencil"></i> --}}
                         <div>
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                            <button class="btn btn-primary btn-sm" wire:click="OpenEditCountryModal({{ $country->id }})">Edit</button>
+                            <button class="btn btn-danger btn-sm" wire:click="deleteConfirm({{ $country->id }})"> Delete</button>
+                            <button class="btn btn-primary btn-sm" wire:click="OpenEditCountryModal({{ $country->id }})"> Edit</button>
                         </div>
                         {{--</div>--}}
                     </td>

@@ -8,7 +8,7 @@
 
     <title>Countries & Continents</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha512-rqQltXRuHxtPWhktpAZxLHUVJ3Eombn3hvk9PHjV/N5DMUYnzKPC1i3ub0mEXgFzsaZNeJcoE0YHq0j/GFsdGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
 
     @vite(['resources/js/app.js'])
 
@@ -26,6 +26,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
     @livewireScripts
     <script>
         window.addEventListener('OpenAddCountryModal', function () {
@@ -51,6 +52,39 @@
             $('.editCountry').find('form#continent-country-city')[0].reset();
             $('.editCountry').modal('hide');
             //alert('New Country Has been Saved Successfully');
+        });
+
+        window.addEventListener('SwalConfirm', function (e) {
+            swal.fire({
+                title: e.detail.title,
+                imageWidth: 48,
+                imageHeight: 48,
+                html: e.detail.html,
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                width: 400,
+                allowOutsideClick: false
+            }).then(function (result) {
+                if (result.value) {
+                    window.livewire.emit('delete', e.detail.id);
+                }
+            })
+        });
+
+        window.addEventListener('deleted', function (e) {
+            Swal.fire({
+                toast: true,
+                type: 'success',
+                icon: 'success',
+                position: 'top-end',
+                title: "Country record has been deleted",
+                showConfirmButton: false,
+                timer: 3000
+            });
         });
 
     </script>

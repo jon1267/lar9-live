@@ -10,6 +10,7 @@ class Countries extends Component
 {
     public $continent, $country_name,$capital_city;
     public $upd_continent, $upd_country_name, $upd_capital_city, $countryId;
+    protected $listeners = ['delete'];
 
     public function render()
     {
@@ -81,6 +82,24 @@ class Countries extends Component
 
         if ($update) {
             $this->dispatchBrowserEvent('CloseEditCountryModal');
+        }
+    }
+
+    public function deleteConfirm($id)
+    {
+        $country = Country::find($id);
+        $this->dispatchBrowserEvent('SwalConfirm', [
+            'title' => 'Are you sure?',
+            'html' => 'You want to delete country <strong>'.$country->country_name.'</strong>',
+            'id' => $id,
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $result = Country::find($id)->delete();
+        if ($result) {
+            $this->dispatchBrowserEvent('deleted');
         }
     }
 }
