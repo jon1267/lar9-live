@@ -87,6 +87,28 @@
             });
         });
 
+        window.addEventListener('swal:deleteCountries', function (e) {
+            swal.fire({
+                title: e.detail.title,
+                imageWidth: 48,
+                imageHeight: 48,
+                html: e.detail.html,
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes, Delete all',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                width: 400,
+                allowOutsideClick: false
+            }).then(function (result) {
+                if (result.value) {
+                    //alert('delete counties ' + e.detail.checkedIDs);
+                    window.livewire.emit('deleteCheckedCountries',e.detail.checkedIDs);
+                }
+            })
+        });
+
     </script>
 </body>
 </html>

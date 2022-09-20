@@ -10,7 +10,8 @@ class Countries extends Component
 {
     public $continent, $country_name,$capital_city;
     public $upd_continent, $upd_country_name, $upd_capital_city, $countryId;
-    protected $listeners = ['delete'];
+    protected $listeners = ['delete', 'deleteCheckedCountries'];
+    public array $checkedCountries = [];
 
     public function render()
     {
@@ -47,6 +48,7 @@ class Countries extends Component
 
         if ($save) {
             $this->dispatchBrowserEvent('CloseAddCountryModal');
+            $this->checkedCountries = [];
         }
     }
 
@@ -82,6 +84,7 @@ class Countries extends Component
 
         if ($update) {
             $this->dispatchBrowserEvent('CloseEditCountryModal');
+            $this->checkedCountries = [];
         }
     }
 
@@ -101,5 +104,28 @@ class Countries extends Component
         if ($result) {
             $this->dispatchBrowserEvent('deleted');
         }
+        $this->checkedCountries = [];
+    }
+
+    public function deleteCountries()
+    {
+        //dd($this->checkedCountries);
+        $this->dispatchBrowserEvent('swal:deleteCountries',[
+            'title' => 'Are you sure?',
+            'html' => 'You want to delete countries',
+            'checkedIDs' => $this->checkedCountries,
+        ]);
+    }
+
+    public function deleteCheckedCountries($ids)
+    {
+        //$countries = Country::whereKey($ids); //dd($countries); //~whereKey($ids) == whereIn('id', $ids)
+        Country::whereIn('id', $ids)->delete();
+        $this->checkedCountries = [];
+    }
+
+    public function isChecked($countryId)
+    {
+        return in_array($countryId, $this->checkedCountries) ? 'bg-info' : '';
     }
 }

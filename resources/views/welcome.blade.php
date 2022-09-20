@@ -29,7 +29,7 @@
                                 Dropdown
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="/countries">Countries</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -47,14 +47,13 @@
             </div>
         </nav>
 
-        <div class="container">
+        {{--<div class="container">
             <h4>This is modal example</h4>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
             </button>
-
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -74,6 +73,6 @@
                 </div>
             </div>
 
-        </div>
+        </div>--}}
     </body>
 </html>
