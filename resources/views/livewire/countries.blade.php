@@ -47,6 +47,9 @@
             @endforelse
         </tbody>
     </table>
+    @if(count($countries))
+        {{ $countries->links() }}
+    @endif
 
     @include('modals.add-modal')
     @include('modals.edit-modal')

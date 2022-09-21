@@ -5,19 +5,23 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Continent;
 use App\Models\Country;
+use Livewire\WithPagination;
 
 class Countries extends Component
 {
-    public $continent, $country_name,$capital_city;
-    public $upd_continent, $upd_country_name, $upd_capital_city, $countryId;
+    use WithPagination;
+
+    public string $continent, $country_name,$capital_city;
+    public string $upd_continent, $upd_country_name, $upd_capital_city, $countryId;
     protected $listeners = ['delete', 'deleteCheckedCountries'];
     public array $checkedCountries = [];
+    protected string $paginationTheme = 'bootstrap'; //(?!)
 
     public function render()
     {
         return view('livewire.countries', [
             'continents' => Continent::orderBy('continent_name','asc')->get(),
-            'countries' => Country::orderBy('country_name', 'asc')->get(),
+            'countries' => Country::orderBy('country_name', 'asc')->paginate(5),
         ]);
     }
 
