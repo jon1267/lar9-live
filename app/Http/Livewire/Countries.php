@@ -17,11 +17,22 @@ class Countries extends Component
     public array $checkedCountries = [];
     protected string $paginationTheme = 'bootstrap'; //(?!)
 
+    public ?string $byContinent = null;
+    public int $perPage = 5;
+    public string $orderBy = 'country_name';
+    public string $sortBy = 'asc';
+    public string $search = '';
+
     public function render()
     {
         return view('livewire.countries', [
             'continents' => Continent::orderBy('continent_name','asc')->get(),
-            'countries' => Country::orderBy('country_name', 'asc')->paginate(5),
+            //'countries' => Country::orderBy('country_name', 'asc')->paginate(5),
+            'countries' => Country::when($this->byContinent, function ($query) {
+                    $query->where('continent_id', $this->byContinent);
+                })->search(trim($this->search))
+                ->orderBy($this->orderBy, $this->sortBy)
+                ->paginate($this->perPage),
         ]);
     }
 

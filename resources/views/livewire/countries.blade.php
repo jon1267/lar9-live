@@ -1,5 +1,45 @@
 <div>
 
+    <div class="row mb-3 py-2">
+        <div class="col-md-3">
+            <label for="" class="form-label">Continent</label>
+            <select wire:model="byContinent" class="form-select">
+                <option value="" selected>All continents</option>
+                @foreach($continents as $continent)
+                    <option value="{{$continent->id}}">{{$continent->continent_name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="" class="form-label">Search</label>
+            <input type="text" wire:model.debounce.350ms="search" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="" class="form-label">Per Page</label>
+            <select wire:model="perPage" class="form-select">
+                <option value="5" selected>5</option>
+                <option value="15">15</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="" class="form-label">Order By</label>
+            <select wire:model="orderBy" class="form-select">
+                <option value="country_name" selected>Country Name</option>
+                <option value="capital_city" >Capital City</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="" class="form-label">Sort By</label>
+            <select wire:model="sortBy" class="form-select">
+                <option value="asc" selected>ASC</option>
+                <option value="desc" >DESC</option>
+
+            </select>
+        </div>
+
+    </div>
+
     <div class="d-flex justify-content-between">
         <div>
             <button class="btn btn-primary mb-3" wire:click="OpenAddCountryModal()" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -43,7 +83,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td>No Country found</td></tr>
+                <tr><td class="text-danger">No Country found</td></tr>
             @endforelse
         </tbody>
     </table>
