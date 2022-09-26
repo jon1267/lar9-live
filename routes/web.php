@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/countries', function () {
     return view('countries');
 });
+
+Route::get('/register', function () {
+    return view('register');
+});
