@@ -10,6 +10,9 @@ Route::get('/countries', function () {
     return view('countries');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+//Route::get('/register', function () {
+//    return view('register');
+//});
+
+Route::view('/register', 'register')->name('register');
+Route::view('/registration-success', 'registration-success')->name('registration.success');

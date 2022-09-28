@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -9,8 +10,8 @@ class MultiStepForm extends Component
 {
     use WithFileUploads;
 
-    public string $first_name, $last_name, $gender, $description, $email, $phone, $country, $city;
-    public $age;
+    public string $first_name = '', $last_name = '', $gender = '', $description = '', $email = '', $phone = '', $country = '', $city = '';
+    public $age=null;
     public array $frameworks = [];
     public $cv, $terms;
 
@@ -68,13 +69,47 @@ class MultiStepForm extends Component
             ]);
         }
         elseif ( $this->currentStep == 3) {
-
+            $this->validate([
+                'frameworks' => 'required|array|min:2|max:3',
+            ]);
         }
     }
 
     public function register()
     {
+        $this->resetErrorBag();
+        if ($this->currentStep == 4) {
+            $this->validate([
+                'cv' => 'required|mimes:doc,docx,pdf|max:1024',
+                'terms' => 'accepted'
+            ]);
+        }
+        //dd('Now form ready for submit');
+        $cv_name = 'CV_'.$this->cv->getClientOriginalName();
+        $upload_cv = $this->cv->storeAs('students_cvs', $cv_name);
 
+        if ($upload_cv) {
+            $data = [
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'gender' => $this->gender,
+                'age' => $this->age,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'country' => $this->country,
+                'city' => $this->city,
+                'frameworks' => json_encode($this->frameworks),
+                'description' => $this->description,
+                'cv' => $cv_name,
+            ];
+
+            Student::create($data);
+            //this 2 lines return at 1 step of registration & next 2 - redirect on ThankYou page
+            //$this->reset();
+            //$this->currentStep = 1;
+            $data1 = ['name'=>$this->first_name.' '.$this->last_name, 'email'=>$this->email];
+            return redirect()->route('registration.success', $data1);
+        }
     }
 
 }
